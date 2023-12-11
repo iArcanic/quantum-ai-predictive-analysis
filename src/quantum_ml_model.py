@@ -14,6 +14,8 @@ class QuantumModel(nn.Module):
 
 
 def train_model(model, inputs, targets, criterion, optimizer, num_epochs=10):
+    losses = []
+
     inputs = torch.FloatTensor(inputs).view(-1, 1)
     targets = torch.FloatTensor(targets).view(-1, 1)
 
@@ -25,7 +27,11 @@ def train_model(model, inputs, targets, criterion, optimizer, num_epochs=10):
         loss.backward()
         optimizer.step()
 
+        losses.append(loss.item())
+
         if (epoch + 1) % 10 == 0:
             print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item()}")
 
     print("Training finished.\n")
+
+    return losses

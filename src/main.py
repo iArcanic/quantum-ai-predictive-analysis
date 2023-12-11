@@ -2,6 +2,7 @@
 
 from src.quantum_data import prepare_quantum_data
 from src.quantum_ml_model import QuantumModel, train_model
+from src.visualisation import plot_training_loss
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -35,7 +36,7 @@ if __name__ == '__main__':
         sample_inputs = train_inputs[start_index:end_index]
         sample_targets = train_targets[start_index:end_index]
 
-        train_model(
+        losses = train_model(
             model,
             sample_inputs,
             sample_targets,
@@ -45,6 +46,8 @@ if __name__ == '__main__':
 
         print(f"Iteration {iteration + 1}")
         print(f"Sample values: {sample_inputs.squeeze().tolist()}")
+
+        plot_training_loss(iteration, losses)
 
     test_inputs = torch.FloatTensor(test_set).view(-1, 1)
     test_targets = torch.FloatTensor(test_set).view(-1, 1)
